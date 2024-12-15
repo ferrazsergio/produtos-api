@@ -1,7 +1,7 @@
 # Configurações do banco de dados H2
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:mem:testdbprodutos
     driver-class-name: org.h2.Driver
     username: teste
     password: teste

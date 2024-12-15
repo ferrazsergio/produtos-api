@@ -3,4 +3,6 @@ spring:
     name: Produtos API
   profiles:
     active: test
- 
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
