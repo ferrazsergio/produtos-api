@@ -1,5 +1,6 @@
 package br.com.ferrazsergio.produtosapi.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,29 @@ public class ProdutoService {
 			throw new DataBaseException(e.getMessage());
 		}
 	}
+	
+	public Produto atualizarPorId(Long id, Produto produto) {
+		Produto produtoExistente = produtoRepository.findProdutoById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Produto com ID " + id + " não encontrado."));
+		 
+		 produtoExistente.setNome(produto.getNome());
+		 produtoExistente.setPreco(produto.getPreco());
+		 produtoExistente.setDescricao(produto.getDescricao());
+		 
+		 if (produto.getPreco() <= 0) {
+			    throw new IllegalArgumentException("O preço do produto deve ser maior que zero.");
+			}
+		 
+		 Produto produtoAlterado = produtoRepository.save(produtoExistente);
+		 return produtoAlterado;
+	}
+	
+	public List<Produto> buscarPorNome(String nome) {
+        List<Produto> produtos = produtoRepository.findByNomeContainingIgnoreCase(nome);
+        if (produtos.isEmpty()) {
+            throw new ResourceNotFoundException("Nenhum produto encontrado com o nome: " + nome);
+        }
+        return produtos;
+    }
 
 }
